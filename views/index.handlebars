@@ -8,11 +8,9 @@
                 <h2>Burgers To Be Eaten</h2>
                 <ul>
                     {{#each burgers}} {{#unless this.devoured}}
-                    <li>
-                        {{this.id}}. {{this.burger_name}}
-                        <form action="/burgers/{{this.id}}?_method=PUT" method="POST">
-                            <input type="hidden" name="devoured" value="false" placeholder="Philly Steak">
-                            <button class="btn btn-primary" type="submit">DEVOUR!</button>
+                    <li class="list-group-item">
+                        <form>
+                            <button data-id="{{this.id}}" type="submit" class='burgerAvailable'> {{this.burger_name}}</button>
                         </form>
                     </li>
                     {{/unless}} {{/each}}
@@ -45,9 +43,24 @@
     </div>
 </main>
 
+<script>
+    $("#buttonAlert").on("click", function () {
+        console.log("hit");
+    })
 
-
-{{!-- <div class="container">
+    $(".burgerAvailable").click(function(event){
+        event.preventDefault();
+        var id = $(this).attr("data-id");
+        $.ajax({
+            type: "PUT",
+            url: "/burgers/" + id
+        }).then(function(){
+            console.log("DEVOURED!!!");
+            location.reload();
+        })
+    })
+</script> {{!--
+<div class="container">
     <div class="row">
         <div class="col-lg-12">
             <form action="/burgers" method="POST">
