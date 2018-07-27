@@ -8,10 +8,12 @@ var app = express();
 app.use(express.static("public"));
 
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 
-// app.use(bodyParser.json());
+app.use(bodyParser.text());
+app.use(bodyParser.json());
+
 
 var exphbs = require("express-handlebars");
 
